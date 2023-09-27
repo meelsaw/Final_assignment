@@ -1,10 +1,16 @@
 import socket
 from config import INPUT_CONFIG
 from utils.serialise import Serialiser
+from utils.encryption import Encryption
 
 
 def send_data(data):
     serialiser = Serialiser()
+    encryption = Encryption()
+    if data["ENCRYPTION"]:
+        input_string = data["INPUT_STRING"]
+        encrypted_string = encryption.encrypt_message(input_string)
+        data["INPUT_STRING"] = encrypted_string
 
     serialised_data = serialiser.serialise(data)
 
