@@ -1,7 +1,7 @@
 INPUT_CONFIG = {
     "INPUT_STRING": "Hello World",
     "OUTPUT_TYPE": "JSON",
-    "ENCRYPTION": False,
+    "ENCRYPTION": True,
     "PRINT_OUTPUT": True,
     "TEXT_FILE_OUTPUT": False,
 }
