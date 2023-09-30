@@ -8,9 +8,7 @@ def send_data(data):
     serialiser = Serialiser()
     encryption = Encryption()
     if data["ENCRYPTION"]:
-        input_string = data["INPUT_STRING"]
-        encrypted_string = encryption.encrypt_message(input_string)
-        data["INPUT_STRING"] = encrypted_string
+        data["INPUT_STRING"] = encryption.encrypt_message(data["INPUT_STRING"])
 
     serialised_data = serialiser.serialise(data)
 
