@@ -1,3 +1,4 @@
+"""Module enables socket creation and listen to client"""
 import socket
 from utils.serialise import Serialiser
 from utils.decrept import Decryption
@@ -59,3 +60,6 @@ def create_listening_socket():
         client_output = receive_from_client(incoming_data)
         client_socket.send(client_output)
         client_socket.close()
+
+if __name__=="__main__":
+    create_listening_socket()
