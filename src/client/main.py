@@ -7,6 +7,7 @@ from utils.encryption import Encryption
 def send_data(data):
     serialiser = Serialiser()
     encryption = Encryption()
+
     if data["ENCRYPTION"]:
         data["INPUT_STRING"] = encryption.encrypt_message(data["INPUT_STRING"])
 
