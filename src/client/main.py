@@ -5,6 +5,22 @@ from utils.encryption import Encryption
 
 
 def send_data(data):
+    """
+    Sends serialised data to the server using socket communication, encrypted if required.
+
+    Parameters:
+    - data (dict): A dictionary containing information to be sent.
+                The dictionary should include at least the following keys:
+                    - "INPUT_STRING" (str): The input string to be sent.
+                    - "OUTPUT_TYPE" (str): Indicates the expected output from the server.
+                    - "ENCRYPTION" (bool): Indicates whether encryption is enabled.
+                    - "PRINT_OUTPUT" (bool): Indicates whether the output string needs to be printed out.
+                    - "FILE_OUTPUT" (bool): Indicates whether to save the expected output to a file.
+
+    Returns:
+    - str: The received data from the server, converted to the specified data type.
+    """
+
     serialiser = Serialiser()
     encryption = Encryption()
     if data["ENCRYPTION"]:
