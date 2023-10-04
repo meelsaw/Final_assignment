@@ -49,10 +49,11 @@ def create_listening_socket():
     When client connection is established, it calls the main processing function
     """
     host = '127.0.0.1'
-    port = '8888'
+    port = 8888
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socket_server.bind((host, port))
     socket_server.listen(5)
+    print(f"Server listening on {host}:{port}")
     while True:
         client_socket, addr = socket_server.accept()
         print(f"Accepted connection from {addr}")
