@@ -29,9 +29,22 @@ def send_data(data):
     serialised_data = serialiser.serialise(data)
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect(("127.0.0.1", 8888))
+        try:
+            s.connect(("127.0.0.1", 8888))
+        except socket.error as error:
+            raise ConnectionError(f"Error connecting to server: {error}") from error
+
         s.sendall(serialised_data)
-        received_data = serialiser.deserialise(s.recv(1024))
+        try:
+            received_data = serialiser.deserialise(s.recv(1024))
+
+            if not received_data:
+                raise ConnectionError("Error: No data received from the server.")
+
+        except socket.error as error:
+            raise ConnectionError(
+                f"Error receiving data from server: {error}"
+            ) from error
 
     return received_data
 
