@@ -3,5 +3,5 @@ INPUT_CONFIG = {
     "OUTPUT_TYPE": "JSON",
     "ENCRYPTION": True,
     "PRINT_OUTPUT": True,
-    "TEXT_FILE_OUTPUT": False,
+    "FILE_OUTPUT": False,
 }
