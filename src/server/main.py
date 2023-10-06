@@ -8,6 +8,9 @@ from utils.file_handler import FileHandler
 def create_file(input_data, format_input):
     """
     Helper function that creates a txt file then convertes it to the desired format
+    :param input_data: str to be written into output file
+    :param format_input: str discribing requested file format of XML/JSON/BINARY
+    :return: XML/JSON/BINARY file
     """
     filehandler = FileHandler()
     txt = filehandler.create_txt(input_str=input_data)
@@ -18,6 +21,8 @@ def create_file(input_data, format_input):
 def receive_from_client(client_data):
     """
     Main function that process data sent from the client
+    :param client_data: config dict sent from client
+    :return: JSON or XML or BIN file based on client request
     """
     deserialiser = Serialiser()
     decrypter = Decryption()
