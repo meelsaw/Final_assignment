@@ -5,11 +5,12 @@ from utils.decrept import Decryption
 from utils.file_handler import FileHandler
 
 
-def convert_file(input_data, format_input):
+def create_file(input_data, format_input):
     """
     Helper function that creates a txt file then convertes it to the desired format
     """
-    txt = FileHandler.create_txt(input_str=input_data)
+    filehandler = FileHandler()
+    txt = filehandler.create_txt(input_str=input_data)
     output_file = FileHandler.convert_file(file=txt, format_type=format_input)
     return output_file
 
@@ -27,7 +28,7 @@ def receive_from_client(client_data):
             requested_output = f"The following message received from client:\n {decrypted_string}"
             print(requested_output)
         elif deserialised["TEXT_FILE_OUTPUT"]:
-            requested_output = convert_file(input_data=decrypted_string,
+            requested_output = create_file(input_data=decrypted_string,
                                             format_input=deserialised["OUTPUT_TYPE"])
         else:
             print("Request not supported")
@@ -37,11 +38,11 @@ def receive_from_client(client_data):
             requested_output = f"The following message received from client:\n {message}"
             print(requested_output)
         elif deserialised["TEXT_FILE_OUTPUT"]:
-            requested_output = convert_file(input_data=message,
+            requested_output = create_file(input_data=message,
                                             format_input=deserialised["OUTPUT_TYPE"])
         else:
             print("Request not supported")
-    return requested_output
+    return deserialiser.serialise(requested_output)
 
 def create_listening_socket():
     """
