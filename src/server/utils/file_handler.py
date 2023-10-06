@@ -14,10 +14,10 @@ class FileHandler:
         """
         directory = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         json_file_path = os.path.join(directory, "final_output.json")
-        output = open(json_file_path, "w")
-        json.dump(output_dict, output, indent=4, sort_keys=False)
-        output.close()
-        return output
+        with open(json_file_path, "w") as output:
+            json.dump(output_dict, output, indent=4, sort_keys=False)
+            output.close()
+        return json_file_path
 
     def create_xml(self, output_dict):
         """
@@ -58,7 +58,7 @@ class FileHandler:
         for key, value in kwargs.items():
             if key == "file":
                 file_obj += value
-            elif key == "format":
+            elif key == "format_type":
                 format_type += value
         return file_obj, format_type
 
