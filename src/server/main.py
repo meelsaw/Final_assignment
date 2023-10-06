@@ -14,7 +14,7 @@ def create_file(input_data, format_input):
     """
     filehandler = FileHandler()
     txt = filehandler.create_txt(input_str=input_data)
-    output_file = FileHandler.convert_file(file=txt, format_type=format_input)
+    output_file = filehandler.convert_file(file=txt, format_type=format_input)
     return output_file
 
 
@@ -32,7 +32,7 @@ def receive_from_client(client_data):
         if deserialised["PRINT_OUTPUT"]:
             requested_output = f"The following message received from client:\n {decrypted_string}"
             print(requested_output)
-        elif deserialised["TEXT_FILE_OUTPUT"]:
+        elif deserialised["FILE_OUTPUT"]:
             requested_output = create_file(input_data=decrypted_string,
                                             format_input=deserialised["OUTPUT_TYPE"])
         else:
@@ -42,7 +42,7 @@ def receive_from_client(client_data):
         if deserialised["PRINT_OUTPUT"]:
             requested_output = f"The following message received from client:\n {message}"
             print(requested_output)
-        elif deserialised["TEXT_FILE_OUTPUT"]:
+        elif deserialised["FILE_OUTPUT"]:
             requested_output = create_file(input_data=message,
                                             format_input=deserialised["OUTPUT_TYPE"])
         else:
@@ -70,3 +70,4 @@ def create_listening_socket():
 
 if __name__=="__main__":
     create_listening_socket()
+
