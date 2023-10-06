@@ -7,7 +7,7 @@ from utils.encryption import Encryption
 
 def download_file(file_path):
     """
-    Download file from the given file path and save it to the current directory
+    Download file from a given file path and save it to the current directory
 
     Parameters:
     - data (str): File path received from the server
