@@ -41,20 +41,41 @@ class FileHandler:
             pickle.dump(output_dict, binary_file)
         return bin_file
 
-    def convert_file(self, **kwargs):
+    def get_request_dict(self, **kwargs):
         """
-        a method converts txt file to json/xml/binary
-        :param kwargs: file name and desired format
-        :return: json/xml/binary file
+        helper method creats a dict with request details
+        :param kwargs: file name and format
+        :return: file object and requested format
         """
         file_obj = str()
         format_type = str()
         for key, value in kwargs.items():
-            if key == "file_name":
+            if key == "file":
                 file_obj += value
             elif key == "format":
                 format_type += value
+        return file_obj, format_type
+
+    def get_client_dict(self, **kwargs):
+        """
+        helper method prepares data to be written in the requested format
+        :param kwargs: file and format type
+        :return: file object, requested format and str to be written on file
+        """
+        file_obj, format_type = self.get_request_dict(**kwargs)
         output_dict = {"content": ""}
+        with open(file_obj) as f:
+            for line in f:
+                output_dict["content"] += line
+        return output_dict, file_obj, format_type
+
+    def convert_file(self, **kwargs):
+        """
+        a method converts txt file to json/xml/binary
+        :param kwargs: file and desired format
+        :return: json/xml/binary file
+        """
+        output_dict, file_obj, format_type = self.get_client_dict(**kwargs)
         with open(file_obj) as f:
             for line in f:
                 output_dict["content"] += line
