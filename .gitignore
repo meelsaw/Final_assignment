@@ -1,1 +1,3 @@
+src/client/.env
+src/server/.env
 .idea/workspace.xml
