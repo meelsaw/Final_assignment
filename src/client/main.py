@@ -1,7 +1,24 @@
+import os
 import socket
 from config import INPUT_CONFIG
 from utils.serialise import Serialiser
 from utils.encryption import Encryption
+
+
+def download_file(file_path):
+    """
+    Download file from a given file path and save it to the current directory
+
+    Parameters:
+    - data (str): File path received from the server
+
+    """
+    with open(file_path, "rb") as file:
+        local_file_name = os.path.basename(file_path)
+        local_file_path = os.path.join(".", local_file_name)
+        with open(local_file_path, "wb") as local_file:
+            local_file.write(file.read())
+    print(f"File saved at {local_file_path}")
 
 
 def send_data(data):
@@ -14,7 +31,7 @@ def send_data(data):
                     - "INPUT_STRING" (str): The input string to be sent.
                     - "OUTPUT_TYPE" (str): Indicates the expected output from the server.
                     - "ENCRYPTION" (bool): Indicates whether encryption is enabled.
-                    - "PRINT_OUTPUT" (bool): Indicates whether the output string needs to be printed out.
+                    - "PRINT_OUTPUT" (bool): Indicates whether the output needs to be printed out.
                     - "FILE_OUTPUT" (bool): Indicates whether to save the expected output to a file.
 
     Returns:
@@ -29,18 +46,23 @@ def send_data(data):
 
     serialised_data = serialiser.serialise(data)
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
         try:
-            s.connect(("127.0.0.1", 8888))
+            server.connect(("127.0.0.1", 8888))
         except socket.error as error:
             raise ConnectionError(f"Error connecting to server: {error}") from error
 
-        s.sendall(serialised_data)
+        server.sendall(serialised_data)
         try:
-            received_data = serialiser.deserialise(s.recv(1024))
+            received_data = serialiser.deserialise(server.recv(1024))
 
             if not received_data:
                 raise ConnectionError("Error: No data received from the server.")
+
+            if os.path.exists(received_data):
+                download_file(received_data)
+            else:
+                print("Received from server:", received_data)
 
         except socket.error as error:
             raise ConnectionError(
@@ -50,6 +72,5 @@ def send_data(data):
     return received_data
 
 
-data = INPUT_CONFIG
-received_string = send_data(data)
-print("Received:", received_string)
+input_data = INPUT_CONFIG
+received_string = send_data(input_data)
