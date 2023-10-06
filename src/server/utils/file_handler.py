@@ -1,16 +1,20 @@
 import json
 import xml.etree.ElementTree as et
 import pickle
+import os
 
 
 class FileHandler:
+
     def create_json(self, output_dict):
         """
         helper method creates a json file
         :param output_dict: dict with the data to be written into json file
         :return: json file
         """
-        output = open("final_output.json", "w")
+        directory = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        json_file_path = os.path.join(directory, "final_output.json")
+        output = open(json_file_path, "w")
         json.dump(output_dict, output, indent=4, sort_keys=False)
         output.close()
         return output
@@ -21,11 +25,12 @@ class FileHandler:
         :param output_dict: dict with the data to be written into xml file
         :return: xml file
         """
+        directory = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         xml_doc = et.Element("data")
         for key, value in output_dict.items():
             element = et.SubElement(xml_doc, key)
             element.text = value
-        xml_file = 'final_output.xml'
+        xml_file = os.path.join(directory, "final_output.xml")
         tree = et.ElementTree(xml_doc)
         tree.write(xml_file, encoding='utf-8', xml_declaration=True)
         return xml_file
@@ -33,10 +38,11 @@ class FileHandler:
     def create_binary(self, output_dict):
         """
         helper method creates a binary file
-        :param output_dict: dict with the data to be written into binary file
+        :param output_dict: dict with the data to be written into file
         :return: binary file
         """
-        bin_file = 'final_output.bin'
+        directory = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        bin_file = os.path.join(directory, "final_output.bin")
         with open(bin_file, 'wb') as binary_file:
             pickle.dump(output_dict, binary_file)
         return bin_file
