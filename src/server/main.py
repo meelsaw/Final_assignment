@@ -29,7 +29,12 @@ def receive_from_client(client_data):
     deserialised = deserialiser.deserialise(client_data)
     if deserialised["ENCRYPTION"]:
         decrypted_string = decrypter.decrypt_message(deserialised["INPUT_STRING"])
-        if deserialised["PRINT_OUTPUT"]:
+        if deserialised["PRINT_OUTPUT"] and deserialised["FILE_OUTPUT"]:
+            print_output = f"The following message received from client:\n {decrypted_string}"
+            requested_output = create_file(input_data=decrypted_string,
+                                           format_input=deserialised["OUTPUT_TYPE"])
+            print(print_output)
+        elif deserialised["PRINT_OUTPUT"]:
             requested_output = f"The following message received from client:\n {decrypted_string}"
             print(requested_output)
         elif deserialised["FILE_OUTPUT"]:
@@ -39,7 +44,11 @@ def receive_from_client(client_data):
             print("Request not supported")
     else:
         message = deserialised["INPUT_STRING"]
-        if deserialised["PRINT_OUTPUT"]:
+        if deserialised["PRINT_OUTPUT"] and deserialised["FILE_OUTPUT"]:
+            print(f"The following message received from client:\n {message}")
+            requested_output = create_file(input_data=message,
+                                           format_input=deserialised["OUTPUT_TYPE"])
+        elif deserialised["PRINT_OUTPUT"]:
             requested_output = f"The following message received from client:\n {message}"
             print(requested_output)
         elif deserialised["FILE_OUTPUT"]:
@@ -70,4 +79,3 @@ def create_listening_socket():
 
 if __name__=="__main__":
     create_listening_socket()
-
