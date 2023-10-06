@@ -1,3 +1,4 @@
 src/client/.env
 src/server/.env
+.idea/Final_assignment.iml
 .idea/workspace.xml
