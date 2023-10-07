@@ -60,6 +60,8 @@ class FileHandler:
                 file_obj += value
             elif key == "format_type":
                 format_type += value
+            else:
+                pass
         return file_obj, format_type
 
     def get_client_dict(self, **kwargs):
