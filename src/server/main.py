@@ -23,6 +23,11 @@ def create_file(input_data, format_input):
 
 
 def print_out(data, output_type):
+    """
+    A function that prints str in requested format
+    :param data: message from client
+    :param output_type: "BINARY" or "JSON" or "XML"
+    """
     if output_type == "JSON":
         formatted_json = json.dumps(data, indent=4)
         print(formatted_json)
