@@ -61,6 +61,7 @@ def print_binary(data):
         for byte in binary_data:
             bin_str += bin(byte)[2:].zfill(8)
             bin_str += " "
+        return bin_str
     except Exception as e:
         return str(e)
 
