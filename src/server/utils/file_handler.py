@@ -17,6 +17,7 @@ class FileHandler:
         with open(json_file_path, "w") as output:
             json.dump(output_dict, output, indent=4, sort_keys=False)
             output.close()
+        print(f"File path: {json_file_path}")
         return json_file_path
 
     def create_xml(self, output_dict):
@@ -33,6 +34,7 @@ class FileHandler:
         xml_file = os.path.join(directory, "final_output.xml")
         tree = et.ElementTree(xml_doc)
         tree.write(xml_file, encoding='utf-8', xml_declaration=True)
+        print(f"File path: {xml_file}")
         return xml_file
 
     def create_binary(self, output_dict):
@@ -45,6 +47,7 @@ class FileHandler:
         bin_file = os.path.join(directory, "final_output.bin")
         with open(bin_file, 'wb') as binary_file:
             pickle.dump(output_dict, binary_file)
+        print(f"\nFile path: {bin_file}")
         return bin_file
 
     def get_request_dict(self, **kwargs):
@@ -60,6 +63,8 @@ class FileHandler:
                 file_obj += value
             elif key == "format_type":
                 format_type += value
+            else:
+                pass
         return file_obj, format_type
 
     def get_client_dict(self, **kwargs):
