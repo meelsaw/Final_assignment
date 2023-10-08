@@ -22,6 +22,47 @@ def create_file(input_data, format_input):
     return output_file
 
 
+def print_json(data):
+    """
+    Helper function prints data in json format
+    :param client message
+    """
+    try:
+        formatted_json = json.dumps(data, indent=4)
+        print(formatted_json)
+    except Exception as e:
+        return str(e)
+
+
+def print_xml(data):
+    """
+    Helper function prints data in xml format
+    :param client message
+    """
+    try:
+        root = ET.Element("root")
+        element = ET.SubElement(root, "message")
+        element.text = data
+        tree = ET.ElementTree(root)
+        xml_string = ET.tostring(root, encoding="utf-8", method="xml")
+        print(xml_string)
+    except Exception as e:
+        return str(e)
+
+
+def print_binary(data):
+    """
+    Helper function prints data in binary format
+    :param client message
+    """
+    try:
+        binary_data = data.encode("utf-8")
+        for byte in binary_data:
+            print(bin(byte)[2:].zfill(8), end=" ")
+    except Exception as e:
+        return str(e)
+
+
 def print_out(data, output_type):
     """
     A function that prints str in requested format
@@ -29,19 +70,11 @@ def print_out(data, output_type):
     :param output_type: "BINARY" or "JSON" or "XML"
     """
     if output_type == "JSON":
-        formatted_json = json.dumps(data, indent=4)
-        print(formatted_json)
+        print_json(data)
     elif output_type == "XML":
-        root = ET.Element("root")
-        element = ET.SubElement(root, "message")
-        element.text = data
-        tree = ET.ElementTree(root)
-        xml_string = ET.tostring(root, encoding="utf-8", method="xml")
-        print(xml_string)
+        print_xml(data)
     elif output_type == "BINARY":
-        binary_data = data.encode("utf-8")
-        for byte in binary_data:
-            print(bin(byte)[2:].zfill(8), end=" ")
+        print_binary(data)
     else:
         print("Format type not supported")
     return
