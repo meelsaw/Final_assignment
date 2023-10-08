@@ -28,8 +28,8 @@ def print_json(data):
     :param client message
     """
     try:
-        formatted_json = json.dumps(data, indent=4)
-        print(formatted_json)
+        formatted_json = json.dumps({"content":data}, indent=4)
+        return formatted_json
     except Exception as e:
         return str(e)
 
@@ -45,7 +45,7 @@ def print_xml(data):
         element.text = data
         tree = ET.ElementTree(root)
         xml_string = ET.tostring(root, encoding="utf-8", method="xml")
-        print(xml_string)
+        return xml_string
     except Exception as e:
         return str(e)
 
@@ -57,8 +57,10 @@ def print_binary(data):
     """
     try:
         binary_data = data.encode("utf-8")
+        bin_str = str()
         for byte in binary_data:
-            print(bin(byte)[2:].zfill(8), end=" ")
+            bin_str += bin(byte)[2:].zfill(8)
+            bin_str += " "
     except Exception as e:
         return str(e)
 
@@ -70,11 +72,11 @@ def print_out(data, output_type):
     :param output_type: "BINARY" or "JSON" or "XML"
     """
     if output_type == "JSON":
-        print_json(data)
+        return print_json(data)
     elif output_type == "XML":
-        print_xml(data)
+        return print_xml(data)
     elif output_type == "BINARY":
-        print_binary(data)
+        return print_binary(data)
     else:
         print("Format type not supported")
     return
@@ -92,41 +94,52 @@ def receive_from_client(client_data):
     if deserialised["ENCRYPTION"]:
         decrypted_string = decrypter.decrypt_message(deserialised["INPUT_STRING"])
         if deserialised["PRINT_OUTPUT"] and deserialised["FILE_OUTPUT"]:
-            print_output = (f"The following data received from client:\n {decrypted_string}"
-                            f"\n Printing in requested format:\n")
-            print_out(decrypted_string, deserialised["OUTPUT_TYPE"])
+            print_format = print_out(decrypted_string, deserialised["OUTPUT_TYPE"])
             requested_output = create_file(input_data=decrypted_string,
                                            format_input=deserialised["OUTPUT_TYPE"])
-            print(print_output)
+            print_output = (f"The following data received from client:\n {decrypted_string}"
+                            f"\n Printing in requested format:\n"
+                            f"{print_format}\n"
+                            f"file created at:{requested_output}")
+
+            return deserialiser.serialise(print_output)
         elif deserialised["PRINT_OUTPUT"]:
-            requested_output = (f"The following data received from client:\n {decrypted_string}"
-                                f"\n Printing in requested format:\n")
-            print(requested_output)
-            print_out(decrypted_string, deserialised["OUTPUT_TYPE"])
+            print_format = print_out(decrypted_string, deserialised["OUTPUT_TYPE"])
+            print_output = (f"The following data received from client:\n {decrypted_string}"
+                            f"\n Printing in requested format:\n"
+                            f"{print_format}\n")
+            return deserialiser.serialise(print_output)
         elif deserialised["FILE_OUTPUT"]:
             requested_output = create_file(input_data=decrypted_string,
                                             format_input=deserialised["OUTPUT_TYPE"])
+            return deserialiser.serialise(requested_output)
         else:
             print("Request not supported")
     else:
         message = deserialised["INPUT_STRING"]
         if deserialised["PRINT_OUTPUT"] and deserialised["FILE_OUTPUT"]:
-            print(f"The following data received from client:\n {message}"
-                  f"\n Printing in requested format:\n")
-            print_out(message, deserialised["OUTPUT_TYPE"])
+            print_format = print_out(message, deserialised["OUTPUT_TYPE"])
             requested_output = create_file(input_data=message,
                                            format_input=deserialised["OUTPUT_TYPE"])
+            print_output = (f"The following data received from client:\n {message}"
+                            f"\n Printing in requested format:\n"
+                            f"{print_format}\n"
+                            f"file created at:{requested_output}")
+            return deserialiser.serialise(print_output)
         elif deserialised["PRINT_OUTPUT"]:
+            print_format = print_out(message, deserialised["OUTPUT_TYPE"])
             requested_output = (f"The following data received from client:\n {message}"
-                                f"\n Printing in requested format:\n")
-            print(requested_output)
-            print_out(message, deserialised["OUTPUT_TYPE"])
+                                f"\n Printing in requested format:\n"
+                                f"{print_format}\n")
+            return deserialiser.serialise(requested_output)
+
         elif deserialised["FILE_OUTPUT"]:
             requested_output = create_file(input_data=message,
                                             format_input=deserialised["OUTPUT_TYPE"])
+            return deserialiser.serialise(requested_output)
         else:
             print("Request not supported")
-    return deserialiser.serialise(requested_output)
+
 
 def create_listening_socket():
     """
@@ -149,3 +162,4 @@ def create_listening_socket():
 
 if __name__=="__main__":
     create_listening_socket()
+
