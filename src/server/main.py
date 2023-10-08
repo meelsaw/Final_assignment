@@ -113,7 +113,7 @@ def receive_from_client(client_data):
         elif deserialised["FILE_OUTPUT"]:
             requested_output = create_file(input_data=decrypted_string,
                                             format_input=deserialised["OUTPUT_TYPE"])
-            return deserialiser.serialise(requested_output)
+            return deserialiser.serialise(f"file created at:{requested_output}")
         else:
             print("Request not supported")
     else:
@@ -137,7 +137,7 @@ def receive_from_client(client_data):
         elif deserialised["FILE_OUTPUT"]:
             requested_output = create_file(input_data=message,
                                             format_input=deserialised["OUTPUT_TYPE"])
-            return deserialiser.serialise(requested_output)
+            return deserialiser.serialise(f"file created at:{requested_output}")
         else:
             print("Request not supported")
 
