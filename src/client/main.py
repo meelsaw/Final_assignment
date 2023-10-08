@@ -59,8 +59,11 @@ def send_data(data):
             if not received_data:
                 raise ConnectionError("Error: No data received from the server.")
 
-            if os.path.exists(received_data):
-                download_file(received_data)
+            if "file created at:" in received_data:
+                path = received_data.split("file created at:")[1]
+                print(received_data)
+
+                download_file(path)
             else:
                 print("Received from server:", received_data)
 
@@ -72,5 +75,6 @@ def send_data(data):
     return received_data
 
 
-input_data = INPUT_CONFIG
-received_string = send_data(input_data)
+if __name__=="__main__":
+    input_data = INPUT_CONFIG
+    received_string = send_data(input_data)

@@ -77,7 +77,7 @@ class FileHandler:
         output_dict = {"content": ""}
         with open(file_obj) as f:
             for line in f:
-                output_dict["content"] += line
+                output_dict["content"] = line
         return output_dict, file_obj, format_type
 
     def convert_file(self, **kwargs):
