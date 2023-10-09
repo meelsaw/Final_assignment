@@ -9,6 +9,7 @@ This project involves building a simple client/server network for a secure appli
 - [Installation](#installation)
 - [Usage](#usage)
 - [Testing](#testing)
+- [Repository](#repository)
 - [License](#license)
 
 ## Installation
@@ -53,6 +54,11 @@ python3 -m unittest discover -s tests
 ````
 
 This command will discover and run tests for various modules inside the "tests" directory, including subdirectories. The tests cover encryption (test_encryption), serialisation (test_serialiser), and file handling (test_file_handler), among others.
+
+
+## Repository
+
+Find more details in  [GitHub repository](https://github.com/meelsaw/Final_assignment).
 
 
 ## License
