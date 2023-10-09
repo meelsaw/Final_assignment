@@ -40,11 +40,20 @@ To run the client, execute the following command:
 python3 src/client/main.py
 ````
 
-This command will launch the client application, allowing users to connect to the server and send messages securely. Users can create messages as dictionaries with options such as encryption, printing, and exporting to a file.
+This command will launch the client application, allowing users to connect to the server and send messages securely. Users can create messages as dictionaries with options such as encryption, decryption, printing, and exporting to a file.
 
 The message will be processed by the server based on the specified options. The server will handle encrypted content and print or export the messages accordingly.
 
 ## Testing
+
+To run all tests for the application, use the following command:
+
+````
+python3 -m unittest discover -s tests
+````
+
+This command will discover and run tests for various modules inside the "tests" directory, including subdirectories. The tests cover encryption (test_encryption), serialisation (test_serialiser), and file handling (test_file_handler), among others.
+
 
 ## License
 
