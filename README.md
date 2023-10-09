@@ -40,7 +40,7 @@ To run the client, execute the following command:
 python3 src/client/main.py
 ````
 
-This command will launch the client application, allowing users to connect to the server and send messages securely. Users can create messages as dictionaries with options such as encryption, printing, and exporting to a file.
+This command will launch the client application, allowing users to connect to the server and send messages securely. Users can create messages as dictionaries with options such as encryption, decryption, printing, and exporting to a file.
 
 The message will be processed by the server based on the specified options. The server will handle encrypted content and print or export the messages accordingly.
 
