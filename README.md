@@ -46,6 +46,15 @@ The message will be processed by the server based on the specified options. The 
 
 ## Testing
 
+To run all tests for the application, use the following command:
+
+````
+python3 -m unittest discover -s tests
+````
+
+This command will discover and run tests for various modules inside the "tests" directory, including subdirectories. The tests cover encryption (test_encryption), serialisation (test_serialiser), and file handling (test_file_handler), among others.
+
+
 ## License
 
 This project is licensed under the MIT License. 
